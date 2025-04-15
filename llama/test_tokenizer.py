@@ -16,6 +16,7 @@ class TokenizerTests(TestCase):
         self.assertEqual(
             self.tokenizer.special_tokens["<|begin_of_text|>"],
             128000,
+            "Special token <|begin_of_text|> does not match expected value."
         )
 
     def test_encode(self):
@@ -26,6 +27,7 @@ class TokenizerTests(TestCase):
                 eos=True
             ),
             [128000, 2028, 374, 264, 1296, 11914, 13, 128001],
+            "Encoded output does not match expected token sequence."
         )
 
     def test_decode(self):
@@ -34,6 +36,7 @@ class TokenizerTests(TestCase):
                 [128000, 2028, 374, 264, 1296, 11914, 13, 128001],
             ),
             "<|begin_of_text|>This is a test sentence.<|end_of_text|>",
+            "Decoded output does not match expected string."
         )
 
     def test_encode_message(self):
@@ -50,7 +53,8 @@ class TokenizerTests(TestCase):
                 271,  # "\n\n"
                 2028, 374, 264, 1296, 11914, 13,  # This is a test sentence.
                 128009,  # <|eot_id|>
-            ]
+            ],
+            "Encoded message does not match expected token sequence."
         )
 
     def test_encode_dialog(self):
@@ -78,11 +82,13 @@ class TokenizerTests(TestCase):
                 882,     # "user"
                 128007,  # <|end_header_id|>
                 271,     # "\n\n"
-                2028, 374, 264, 2077, 13,  # "This is a response.",
+                2028, 374, 264, 2077, 13,  # "This is a response."
                 128009,  # <|eot_id|>
                 128006,  # <|start_header_id|>
                 78191,   # "assistant"
                 128007,  # <|end_header_id|>
                 271,     # "\n\n"
-            ]
+            ],
+            "Encoded dialog prompt does not match expected token sequence."
         )
+
